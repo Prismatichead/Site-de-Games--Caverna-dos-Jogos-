@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrinho de Compras</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- Custom Styles -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        header {
+            background: #333;
+            color: #eee;
+            padding: 1rem;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        header a {
+            color: #eee;
+            text-decoration: none;
+            margin: 0 1rem;
+            font-weight: bold;
+        }
+
+        header a:hover {
+            text-decoration: underline;
+        }
+
+        .cart-container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+
+        .cart-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+        }
+
+        .cart-table th, .cart-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .cart-table th {
+            background: #f4f4f4;
+            font-weight: bold;
+        }
+
+        .cart-table tr:hover {
+            background: #f9f9f9;
+        }
+
+        .cart-table button {
+            background: #e74c3c;
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .cart-table button:hover {
+            background: #c0392b;
+        }
+
+        .cart-total {
+            text-align: right;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .cart-actions {
+            text-align: center;
+        }
+
+        .cart-actions a {
+            background: #3498db;
+            color: #fff;
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .cart-actions a:hover {
+            background: #2980b9;
+        }
+
+        footer {
+            background: #333;
+            color: #eee;
+            text-align: center;
+            padding: 1rem;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="{{ url_for('home.home') }}">Home</a>
+        <a href="{{ url_for('cart.view_cart') }}">Carrinho</a>
+    </header>
+    <div class="cart-container">
+        <h1>Seu Carrinho</h1>
+        <table class="cart-table">
+            <thead>
+                <tr>
+                    <th>Produto</th>
+                    <th>Quantidade</th>
+                    <th>Preço Unitário</th>
+                    <th>Preço Total</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart.items %}
+                <tr>
+                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>${{ item.product.price }}</td>
+                    <td>${{ item.get_total_price() }}</td>
+                    <td>
+                        <form action="{{ url_for('cart.remove_from_cart', product_id=item.product.id) }}" method="POST">
+                            <button type="submit">Remover</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="cart-total">
+            <p>Total: ${{ cart.get_total_price()|round(2) }}</p>
+        </div>
+        <div class="cart-actions">
+            <a href="/">Continuar Comprando</a>
+        </div>
+    </div>
+    <footer>
+        <p>© 2024 Caverna dos Jogos. Todos os direitos reservados.</p>
+    </footer>
+</body>
+</html>

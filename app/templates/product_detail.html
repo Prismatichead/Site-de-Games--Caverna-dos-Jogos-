@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ product.name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        /* Reset some default styles */
+        body, h1, p {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #333;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        header a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 1rem;
+        }
+
+        .container {
+            display: flex;
+            padding: 1rem;
+            flex: 1;
+        }
+
+        .image-container {
+        flex: 1;
+        padding: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 300px; 
+        height: 800px; 
+        background: #f0f0f0; 
+        }
+
+        .image-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; 
+        }
+
+        .info-container {
+            flex: 2;
+            padding: 1rem;
+        }
+
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="{{ url_for('home.home') }}" style="color: #eee;">Home</a>
+        <a href="{{ url_for('cart.view_cart') }}" style="color: #eee;">Carrinho</a>
+    </header>
+    <div class="container">
+        <div class="image-container">
+            <img src="{{ product.images[0] }}" alt="{{ product.name }}">
+        </div>
+        <div class="info-container">
+            <h1>{{ product.name }}</h1>
+            <p>Preço: ${{ product.price }}</p>
+            <p>{{ product.description }}</p>
+            <form action="{{ url_for('cart.add_to_cart', product_id=product.id) }}" method="POST">
+                <input type="number" name="quantity" value="1" min="1">
+                <button type="submit">Adicionar ao Carrinho</button>
+            </form>
+        </div>
+    </div>
+    <footer>
+        <p>© 2024 Caverna dos Jogos. Todos os direitos reservados.</p>
+    </footer>
+</body>
+</html>

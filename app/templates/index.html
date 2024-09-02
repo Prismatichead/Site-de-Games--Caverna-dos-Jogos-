@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nossa Loja Online</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- Swiper's CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <!-- Custom Styles for Swiper -->
+    <style>
+        html,
+        body {
+            position: relative;
+            height: 100%;
+        }
+
+        body {
+            background: #eee;
+            font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            color: #000;
+            margin: 0;
+            padding: 0;
+        }
+
+        .swiper {
+            width: 95%;
+            height: 67%;
+        }
+
+        .swiper-slide {
+            text-align: center;
+            font-size: 18px;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .swiper-slide img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: auto;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <input type="text" placeholder="Buscar produtos...">
+        <a style="color: #eee;" href="{{ url_for('cart.view_cart') }}">Carrinho</a>
+    </header>
+    <section id="hero">
+        <img src="../static/img/Controle 2.0.jpg" alt="Promoção Especial">
+        <button>Compre Agora!</button>
+    </section>
+    <h1 style="text-align: center;">Bem-vindo à Caverna dos Jogos!</h1>
+    
+    <div class="categories">
+        <h2>Categorias</h2>
+        <div class="categories-grid">
+            {% for category in categories %}
+            <div class="category-item">
+                <a href="{{ url_for('product.list_products_by_category', category_id=category.id) }}">{{ category.name }}</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <h2 style="text-align: center;">Produtos em Destaque</h2>
+    <!-- Swiper -->
+    <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+            <!-- Exiba apenas os produtos com IDs 1, 2, 3, 4, 5 e 6 -->
+            {% for product in products %}
+                {% if product.id in [1, 2, 3, 4, 5, 6] %}
+                <div class="swiper-slide">
+                    <img src="{{ product.images[0] }}" alt="{{ product.name }}" class="product-image">
+                    <h3>{{ product.name }}</h3>
+                    <p>Preço: ${{ product.price }}</p>
+                    <a href="{{ url_for('product.product_detail', product_id=product.id) }}">Ver Detalhes</a>
+                    <div>
+                        <br>
+                        <br>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <!-- Swiper Pagination -->
+        <div class="swiper-pagination"></div>
+        <!-- Swiper Navigation -->
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+    </div>    
+    <div>
+        <br>
+        <br>
+    </div>
+    <footer>
+        <p>© 2024 Caverna dos Jogos. Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <!-- Initialize Swiper -->
+    <script>
+        var swiper = new Swiper(".mySwiper", {
+            slidesPerView: 5,
+            spaceBetween: 30,
+            freeMode: true,
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false,
+            },
+            loop: true,
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+        });
+    </script>
+</body>
+</html>
