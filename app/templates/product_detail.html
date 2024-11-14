@@ -13,66 +13,119 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             line-height: 1.6;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            background-color: #fafafa;
+            color: #333;
         }
 
         header {
-            background: #333;
+            background: #444;
             color: #fff;
-            padding: 1rem;
+            padding: 1.5rem;
             text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         header a {
-            color: #fff;
+            color: #eee;
             text-decoration: none;
-            margin: 0 1rem;
+            margin: 0 1.5rem;
+            font-weight: bold;
+        }
+
+        header a:hover {
+            text-decoration: underline;
         }
 
         .container {
             display: flex;
-            padding: 1rem;
+            padding: 2rem;
             flex: 1;
+            max-width: 1200px;
+            margin: auto;
+            gap: 2rem; /* Space between image and info */
         }
 
         .image-container {
-        flex: 1;
-        padding: 1rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 300px; 
-        height: 800px; 
-        background: #f0f0f0; 
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f0f0f0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         .image-container img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover; 
+            width: 100%;
+            height: auto;
+            object-fit: cover; 
         }
 
         .info-container {
             flex: 2;
-            padding: 1rem;
+            padding: 1.5rem;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-container h1 {
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .info-container p {
+            margin-bottom: 1rem;
+        }
+
+        .info-container form {
+            display: flex;
+            align-items: center;
+            gap: 1rem; /* Space between input and button */
+        }
+
+        input[type="number"] {
+            width: 60px;
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 0.5rem 1rem;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #218838;
         }
 
         footer {
-            background: #333;
+            background: #444;
             color: #fff;
             text-align: center;
             padding: 1rem;
+            position: relative;
+            bottom: 0;
+            width: 100%;
         }
     </style>
 </head>
 <body>
     <header>
-        <a href="{{ url_for('home.home') }}" style="color: #eee;">Home</a>
-        <a href="{{ url_for('cart.view_cart') }}" style="color: #eee;">Carrinho</a>
+        <a href="{{ url_for('home.home') }}">Home</a>
+        <a href="{{ url_for('cart.view_cart') }}">Carrinho</a>
     </header>
     <div class="container">
         <div class="image-container">
@@ -80,10 +133,10 @@
         </div>
         <div class="info-container">
             <h1>{{ product.name }}</h1>
-            <p>Preço: ${{ product.price }}</p>
+            <p><strong>Preço:</strong> ${{ product.price }}</p>
             <p>{{ product.description }}</p>
             <form action="{{ url_for('cart.add_to_cart', product_id=product.id) }}" method="POST">
-                <input type="number" name="quantity" value="1" min="1">
+                <input type="number" name="quantity" value="1" min="1" aria-label="Quantidade">
                 <button type="submit">Adicionar ao Carrinho</button>
             </form>
         </div>
